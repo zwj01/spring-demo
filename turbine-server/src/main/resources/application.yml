@@ -1,0 +1,26 @@
+
+server:
+  port: 9000
+spring:
+  application:
+    name: turbine-server
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8002/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      cors:
+        allowed-methods: "*"
+        allowed-origins: "*"
+turbine:
+  app-config: consumer-feign,consumer-ribbon
+  aggregator:
+    cluster-config: default
+  cluster-name-expression: new String("default")
+  combine-host-port: true
+  instanceUrlSuffix:
+      default: actuator/hystrix.stream

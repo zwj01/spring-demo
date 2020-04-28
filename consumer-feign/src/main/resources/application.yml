@@ -1,0 +1,49 @@
+
+server:
+  port: 8111
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8002/eureka/
+spring:
+  application:
+    name: consumer-feign
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      probability: 1.0
+    trace-id128: true
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+        timeout:
+          enabled: false
+#请求处理的超时时间
+ribbon:
+  ReadTimeout: 120000
+#请求连接的超时时间
+  ConnectTimeout: 30000
+feign:
+  hystrix:
+    enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ["health","info","hystrix.stream"]
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
+  endpoint:
+    health:
+      show-details: always
+
+
+
+
+

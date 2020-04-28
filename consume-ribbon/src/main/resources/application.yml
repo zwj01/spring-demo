@@ -1,0 +1,14 @@
+
+server:
+  port: 8110
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8002/eureka/
+spring:
+  application:
+    name: consumer-ribbon
+
+feign:
+  hystrix:
+    enabled: true
