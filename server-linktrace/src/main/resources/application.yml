@@ -1,0 +1,13 @@
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8002/eureka/
+server:
+  port: 8013
+spring:
+  application:
+    name: server-linktrace
+  data:
+    mongodb:
+      uri: mongodb://192.168.154.128:27017/linktrace

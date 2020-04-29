@@ -1,0 +1,29 @@
+kafka:
+  bootstrap.servers: 192.168.154.128:9092
+  producer:
+    # 生产者是否会等待确认信号 0 不等待 1 有可能丢失 -1 确保设置
+    acks: -1
+    #重试次数
+    retries: 0
+    #批次处理数据 16k, 超过立刻发送
+    batch.size: 16384
+    #缓存中最长时间,超过立刻发送
+    linger.ms: 100
+    buffer.memory: 33554432
+    key.serializer: org.apache.kafka.common.serialization.StringSerializer
+    value.serializer: org.apache.kafka.common.serialization.StringSerializer
+  consumer:
+    group.id: databank-metadata
+    #offset不存在时的处理方式
+    #earliest: 重置至最早的offset
+    #latest: 重置至最晚的offset
+    #none: 重置到最早的,若是没有抛异常
+    auto.offset.reset: latest
+    #自动提交
+    enable.auto.commit: true
+    #自动提交间隔
+    auto.commit.interval.ms: 5000
+    #session 过期时间
+    session.timeout.ms: 100000
+    key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value.deserializer: org.apache.kafka.common.serialization.StringDeserializer

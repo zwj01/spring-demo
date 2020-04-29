@@ -3,7 +3,6 @@ package com.soft.entity;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.lang.annotation.Documented;
 import java.util.Date;
 
 /**

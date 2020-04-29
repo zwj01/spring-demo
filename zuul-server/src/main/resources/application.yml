@@ -7,14 +7,18 @@ server:
 spring:
   application:
     name: zuul-server
+  data:
+    mongodb:
+      uri: mongodb://192.168.154.128:27017/linktrace
 zuul:
   routes:
     ribbon:
       path: /ribbon/**
       serviceId: consumer-ribbon
-    feign:
+    consumer-feign:
       path: /feign/**
-      serviceId: consumer-feign
+    server-linktrace:
+      path: /linktrace/**
 ribbon:
   eager-load:
     clients: true

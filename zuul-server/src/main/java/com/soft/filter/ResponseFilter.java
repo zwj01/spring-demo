@@ -5,6 +5,8 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import com.soft.entity.LinkTrace;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 
@@ -19,6 +21,9 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
 public class ResponseFilter extends ZuulFilter {
 
 
+
+    @Autowired
+    KafkaTemplate<String,String> kafkaTemplate;
 
 
 
@@ -49,7 +54,9 @@ public class ResponseFilter extends ZuulFilter {
             String responseBody = StreamUtils.copyToString(responseDataStream,Charset.forName("UTF-8"));
             System.out.println("返回的数据：" + responseBody);
             linkTrace.setResponseBody(responseBody);
+            System.out.println("链路信息：" + JSONObject.toJSONString(linkTrace));
             context.setResponseDataStream(new ByteArrayInputStream(responseBody.getBytes()));
+            kafkaTemplate.send("service.linktrace",JSONObject.toJSONString(linkTrace));
             System.out.println("返回结果：" + responseDataStream);
         } catch (Exception e){
             e.printStackTrace();

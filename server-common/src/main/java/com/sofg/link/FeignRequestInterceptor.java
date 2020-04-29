@@ -6,6 +6,7 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class FeignRequestInterceptor implements RequestInterceptor {
         System.out.println("调用前拦截");
         try {
             LinkTrace linkTrace = new LinkTrace();
-            String jsonString= (String)shareHandle.map.get("linkTrace");
+            String jsonString= (String)shareHandle.map.get("linktrace");
             JSONObject jsonObject = JSONObject.parseObject(jsonString);
 
             String url = template.url();
@@ -34,15 +35,19 @@ public class FeignRequestInterceptor implements RequestInterceptor {
 
             if (jsonObject != null){
                 //跨度id
-                Integer pSpanId = jsonObject.getInteger("pSpanId");
-                if (pSpanId != 0){
+                /*Integer pSpanId = jsonObject.getInteger("pSpanId");
+                if (pSpanId == 0){
                     linkTrace.setpSpanId(jsonObject.getInteger("pSpanId"));
-                }
+                }*/
                 linkTrace.setSpandId(jsonObject.getInteger("spandId"));
                 //token
                 linkTrace.setToken(jsonObject.getString("token"));
                 //设置ApiChain
-                linkTrace.setApiChain(jsonObject.getString("apiChain"));
+                if (StringUtils.isEmpty(jsonObject.getString("apiChain"))){
+                    linkTrace.setApiChain(name);
+                } else {
+                    linkTrace.setApiChain(jsonObject.getString("apiChain"));
+                }
                 //请求id
                 linkTrace.setTraceId(jsonObject.getInteger("traceId"));
             }
@@ -59,7 +64,7 @@ public class FeignRequestInterceptor implements RequestInterceptor {
             //请求uri
             linkTrace.setUri(url);
             String linkTraceS = JSONObject.toJSONString(linkTrace);
-            template.header("conLinkTrace",linkTraceS);
+            template.header("linktrace",linkTraceS);
         } catch (Exception e){
             e.printStackTrace();
         }
