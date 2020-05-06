@@ -1,5 +1,7 @@
 package com.soft.client.hystrix;
 
+import com.sofg.content.RestApi;
+import com.sofg.pojo.ResponseBean;
 import com.soft.client.FHelloClient;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HelloService implements FHelloClient {
     @Override
-    public String getHello(String name) {
-        return "Sorry,i cannot get it";
+    public ResponseBean getHello(String name) {
+        return new ResponseBean(RestApi.Msg.SUCCESS,RestApi.Code.SUCCESS,"Sorry,i cannot get it");
     }
 }

@@ -1,9 +1,12 @@
 package com.soft.controller;
 
+import com.sofg.content.RestApi;
+import com.sofg.pojo.ResponseBean;
 import com.soft.bean.ResponseModel;
 import com.soft.bean.SmallDto;
 import com.soft.client.FHelloClient;
 import com.soft.client.SmallClient;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/consumer")
+@Api(value = "Consumer-Feign 测试", description = "RESTful API")
 public class HelloController {
 
     @Autowired
@@ -36,9 +40,11 @@ public class HelloController {
     @Autowired
     SmallClient smallClient;
 
+    @ApiOperation(value="测试一下", notes="")
     @RequestMapping(value = "/get")
-    public String hi(@RequestParam String name) {
-        return fHelloClient.getHello(name);
+    public ResponseBean hi(@RequestParam String name) {
+        ResponseBean s = fHelloClient.getHello(name);
+        return new ResponseBean(RestApi.Msg.SUCCESS,RestApi.Code.SUCCESS,s.getData());
     }
 
     @ApiOperation(value = "根据id初始化财务报表",httpMethod = "GET",response = SmallDto.class)

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class LinkTraceServiceImpl implements LinkTraceService {
@@ -17,5 +18,15 @@ public class LinkTraceServiceImpl implements LinkTraceService {
     @Override
     public List<LinkTrace> findLinkTrace(LinkTrace linkTrace) {
         return linkTraceDao.findLinkTrace(linkTrace);
+    }
+
+    @Override
+    public List<LinkTrace> findLinkTraceByParam(Map param) {
+        return linkTraceDao.findLinkTraceByParam(param);
+    }
+
+    @Override
+    public List<LinkTrace> findLinkTraceByStatus(Integer status) {
+        return linkTraceDao.findLinkTraceByStatus(status);
     }
 }

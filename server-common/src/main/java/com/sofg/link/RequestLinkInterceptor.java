@@ -1,5 +1,6 @@
 package com.sofg.link;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sofg.entity.LinkTrace;
 import com.sofg.utils.KafkaUtil;
@@ -44,6 +45,7 @@ public class RequestLinkInterceptor implements HandlerInterceptor {
         } else {
 
         }
+        linkTrace.setServiceName(name);
         String pid = name + request.getRequestURI() + System.currentTimeMillis();
         hpid = pid.hashCode();
         hpid = hpid > 0 ? hpid : -hpid;
@@ -64,6 +66,11 @@ public class RequestLinkInterceptor implements HandlerInterceptor {
         System.out.println("后置处理拦截");
         try {
             Object o = shareHandle.map.get("responseBody");
+           JSONObject object =  (JSONObject) JSON.toJSON(o);
+           Integer status = object.getInteger("code");
+           if (!StringUtils.isEmpty(status)){
+               linkTrace.setStatus(status);
+           }
             //设置响应体数据
             linkTrace.setResponseBody(JSONObject.toJSONString(o));
             System.out.println("返回数据：" + o.toString());
@@ -72,7 +79,7 @@ public class RequestLinkInterceptor implements HandlerInterceptor {
             //kafkaTemplate.send("service1.linktrace",JSONObject.toJSONString(linkTrace));
             KafkaUtil.sendMsg("service.linktrace",JSONObject.toJSONString(linkTrace));
         } catch (Exception e){
-
+            e.printStackTrace();
         }
 
 

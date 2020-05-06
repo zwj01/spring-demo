@@ -2,6 +2,8 @@ package com.soft.controller;
 
 
 import com.sofg.api.HelloTestApi;
+import com.sofg.content.RestApi;
+import com.sofg.pojo.ResponseBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,12 +23,13 @@ public class HelloTest implements HelloTestApi {
 
     @RequestMapping(value = "/index",method = RequestMethod.GET)
     @Override
-    public String getHello(@RequestParam String name){
+    public ResponseBean getHello(@RequestParam String name){
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return "Hello，"+name + port;
+        String s = "Hello，"+name + port;
+        return new ResponseBean(RestApi.Msg.SUCCESS,RestApi.Code.SUCCESS,s);
     }
 }

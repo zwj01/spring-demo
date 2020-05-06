@@ -1,5 +1,6 @@
 package com.sofg.api;
 
+import com.sofg.pojo.ResponseBean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,5 +13,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface HelloTestApi {
     //消费者 提供者都实现这个接口
     @RequestMapping(value = "/index",method = RequestMethod.GET)
-    String getHello(@RequestParam("name") String name);
+    ResponseBean getHello(@RequestParam("name") String name);
 }

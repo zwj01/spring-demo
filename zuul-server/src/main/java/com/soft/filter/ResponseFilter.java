@@ -53,7 +53,9 @@ public class ResponseFilter extends ZuulFilter {
             InputStream responseDataStream = context.getResponseDataStream();
             String responseBody = StreamUtils.copyToString(responseDataStream,Charset.forName("UTF-8"));
             System.out.println("返回的数据：" + responseBody);
+            JSONObject object = JSONObject.parseObject(responseBody);
             linkTrace.setResponseBody(responseBody);
+            linkTrace.setStatus(object.getInteger("code"));
             System.out.println("链路信息：" + JSONObject.toJSONString(linkTrace));
             context.setResponseDataStream(new ByteArrayInputStream(responseBody.getBytes()));
             kafkaTemplate.send("service.linktrace",JSONObject.toJSONString(linkTrace));
