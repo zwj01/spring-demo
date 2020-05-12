@@ -1,8 +1,8 @@
-package com.soft.mongod;
+package com.soft.kafka;
 
 import com.soft.pojo.LinkTracePojo;
 
-public interface LinkTraceDao {
+public interface ConsumerLinkTraceDao {
 
     void saveLinkTrace(LinkTracePojo linkTrace);
 }

@@ -11,6 +11,30 @@ spring:
   data:
     mongodb:
       uri: mongodb://192.168.154.128:27017/linktrace
+  datasource:
+      url: jdbc:mysql://127.0.0.1:3306/zipkin?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+      filters: stat
+      maxActive: 20
+      initialSize: 1
+      maxWait: 60000
+      minIdle: 1
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
 logging:
   level:
     org.springframework.data.mongodb.core: DEBUG
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.soft.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

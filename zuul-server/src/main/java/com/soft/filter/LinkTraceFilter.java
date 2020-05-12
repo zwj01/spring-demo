@@ -45,7 +45,7 @@ public class LinkTraceFilter extends ZuulFilter {
 
         try {
             LinkTrace linkTrace = new LinkTrace();
-            Date receiveTime = Calendar.getInstance().getTime();
+            //Date receiveTime = Calendar.getInstance().getTime();
 
             RequestContext context = RequestContext.getCurrentContext();
             //JSONObject jsonObject = new JSONObject();
@@ -82,7 +82,7 @@ public class LinkTraceFilter extends ZuulFilter {
             linkTrace.setTraceId(rid);
 
             linkTrace.setUri(uri);
-            linkTrace.setReceiveTime(receiveTime);
+            linkTrace.setReceiveTime(System.currentTimeMillis());
             linkTrace.setToken("token");
             linkTrace.setServiceName(serviceId);
             context.addZuulRequestHeader("linktrace",JSONObject.toJSONString(linkTrace));

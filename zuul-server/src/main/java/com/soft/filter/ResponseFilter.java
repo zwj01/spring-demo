@@ -13,7 +13,7 @@ import org.springframework.util.StreamUtils;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.Calendar;
+
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.POST_TYPE;
 
@@ -45,11 +45,10 @@ public class ResponseFilter extends ZuulFilter {
     @Override
     public Object run() throws ZuulException {
         try {
-            System.out.println("回来啦");
             RequestContext context = RequestContext.getCurrentContext();
             String linktrace = context.getZuulRequestHeaders().get("linktrace");
             LinkTrace linkTrace = JSONObject.parseObject(linktrace,LinkTrace.class);
-            linkTrace.setSendTime(Calendar.getInstance().getTime());
+            linkTrace.setSendTime(System.currentTimeMillis());
             InputStream responseDataStream = context.getResponseDataStream();
             String responseBody = StreamUtils.copyToString(responseDataStream,Charset.forName("UTF-8"));
             System.out.println("返回的数据：" + responseBody);

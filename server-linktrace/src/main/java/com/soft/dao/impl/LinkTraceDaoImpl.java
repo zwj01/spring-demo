@@ -2,6 +2,7 @@ package com.soft.dao.impl;
 
 import com.soft.dao.LinkTraceDao;
 import com.soft.entity.LinkTrace;
+import com.soft.pojo.LinkTracePojo;
 import com.soft.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,14 +24,21 @@ public class LinkTraceDaoImpl implements LinkTraceDao {
     private MongoTemplate template;
 
     @Override
-    public List<LinkTrace> findLinkTrace(LinkTrace linkTrace) {
-        Query query = new Query(Criteria.where("traceId").is(linkTrace.getTraceId()));
-        List<LinkTrace> linkTraces = template.find(query,LinkTrace.class);
+    public List<LinkTracePojo> findLinkTrace(LinkTracePojo linkTrace) {
+        Query query = null;
+        if (linkTrace.getTraceId() != null){
+            query = new Query(Criteria.where("traceId").is(linkTrace.getTraceId()));
+        }
+
+        if (linkTrace.getSpandId() != null){
+            query = new Query(Criteria.where("spandId").is(linkTrace.getSpandId()));
+        }
+        List<LinkTracePojo> linkTraces = template.find(query,LinkTracePojo.class);
         return linkTraces;
     }
 
     @Override
-    public List<LinkTrace> findLinkTraceByParam(Map param) {
+    public List<LinkTracePojo> findLinkTraceByParam(Map param) {
         String serviceName = param.get("serviceName").toString();
         Object status = param.get("status");
         if (!StringUtils.isEmpty(serviceName)){
@@ -56,7 +64,7 @@ public class LinkTraceDaoImpl implements LinkTraceDao {
         if (!StringUtils.isEmpty(status)){
             query.addCriteria(Criteria.where("status").is(Integer.parseInt(status.toString())));
         }
-        List<LinkTrace> list = template.find(query,LinkTrace.class);
+        List<LinkTracePojo> list = template.find(query,LinkTracePojo.class);
         return list;
         /*Criteria criteria = new Criteria();
         criteria.andOperator(Criteria.where("sendTime").gte(start),
@@ -65,10 +73,10 @@ public class LinkTraceDaoImpl implements LinkTraceDao {
     }
 
     @Override
-    public List<LinkTrace> findLinkTraceByStatus(Integer status) {
+    public List<LinkTracePojo> findLinkTraceByStatus(Integer status) {
         Query query = new Query();
         query.addCriteria(Criteria.where("status").is(status));
-        List<LinkTrace> list = template.find(query,LinkTrace.class);
+        List<LinkTracePojo> list = template.find(query,LinkTracePojo.class);
         return list;
     }
 }

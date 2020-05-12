@@ -36,11 +36,11 @@ public class LinkTrace implements Serializable {
     /**
      * 发送时间
      */
-     private Date sendTime;
+     private Long sendTime;
     /**
      * 接收时间
      */
-    private Date receiveTime;
+    private Long receiveTime;
     /**
      * 请求路径
      */
@@ -68,6 +68,8 @@ public class LinkTrace implements Serializable {
      * 存储响应数据
      */
     private String responseBody;
+
+    private TDInsideApi tdInsideApi;
 
     public Integer getTraceId() {
         return traceId;
@@ -109,19 +111,19 @@ public class LinkTrace implements Serializable {
         this.serviceName = serviceName;
     }
 
-    public Date getSendTime() {
+    public Long getSendTime() {
         return sendTime;
     }
 
-    public void setSendTime(Date sendTime) {
+    public void setSendTime(Long sendTime) {
         this.sendTime = sendTime;
     }
 
-    public Date getReceiveTime() {
+    public Long getReceiveTime() {
         return receiveTime;
     }
 
-    public void setReceiveTime(Date receiveTime) {
+    public void setReceiveTime(Long receiveTime) {
         this.receiveTime = receiveTime;
     }
 
@@ -171,6 +173,14 @@ public class LinkTrace implements Serializable {
 
     public void setResponseBody(String responseBody) {
         this.responseBody = responseBody;
+    }
+
+    public TDInsideApi getTdInsideApi() {
+        return tdInsideApi;
+    }
+
+    public void setTdInsideApi(TDInsideApi tdInsideApi) {
+        this.tdInsideApi = tdInsideApi;
     }
 
     @Override

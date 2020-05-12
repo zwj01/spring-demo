@@ -49,6 +49,7 @@ public class RequestLinkInterceptor implements HandlerInterceptor {
         String pid = name + request.getRequestURI() + System.currentTimeMillis();
         hpid = pid.hashCode();
         hpid = hpid > 0 ? hpid : -hpid;
+        linkTrace.setUri(request.getRequestURI());
         linkTrace.setSpandId(hpid);
         linkTrace.setReceiveTime(System.currentTimeMillis());
         System.out.println("前置处理拦截");
