@@ -21,7 +21,7 @@ public class HelloTest implements HelloTestApi {
     @Value("${server.port}")
     String port;
 
-    @RequestMapping(value = "/index",method = RequestMethod.GET)
+    //@RequestMapping(value = "/index",method = RequestMethod.GET)
     @Override
     public ResponseBean getHello(@RequestParam String name){
         try {
@@ -30,6 +30,7 @@ public class HelloTest implements HelloTestApi {
             e.printStackTrace();
         }
         String s = "Hello，"+name + port;
+        System.out.println(s);
         return new ResponseBean(RestApi.Msg.SUCCESS,RestApi.Code.SUCCESS,s);
     }
 }
